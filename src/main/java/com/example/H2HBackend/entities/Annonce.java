@@ -4,6 +4,7 @@ import com.example.H2HBackend.enums.etatObjet;
 import com.example.H2HBackend.enums.typeAnnonce;
 import jakarta.persistence.*;
 import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 
@@ -24,6 +25,18 @@ public class Annonce {
     private boolean estReserve;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Attachment images[];
+
+    @ManyToOne
+    @JoinColumn(name = "idCategorie")
+    private Categorie categorie;
+
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idEmplacement", referencedColumnName = "idEmplacement")
+    private Emplacement emplacement;
 
 
 

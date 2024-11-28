@@ -7,7 +7,7 @@ public enum etatObjet {
     COMMENEUF("Comme neuf"),
     BONETAT("Bon etat"),
     ETATMOYEN("Etat moyen"),
-    ABRICOLER("Abricoler");
+    ABRICOLER("A bricoler");
 
 
     String value;

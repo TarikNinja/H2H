@@ -1,9 +1,6 @@
 package com.example.H2HBackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -21,4 +18,7 @@ public class Emplacement {
     private String codePostal;
     private Double latitude;
     private Double longitude;
+
+    @OneToOne(mappedBy = "emplacement")
+    private Annonce annonce;
 }
