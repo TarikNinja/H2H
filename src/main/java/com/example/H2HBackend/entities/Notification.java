@@ -23,4 +23,5 @@ public class Notification {
     @ManyToOne
     @JoinColumn(name = "idUser")
     private User user;
+
 }

@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.List;
 @Entity
 @NoArgsConstructor @AllArgsConstructor
-@Data @ToString
+@Data
+@ToString
 @Builder
 public class User {
     @Id
@@ -28,6 +29,7 @@ public class User {
     private Attachment avatar;
     private Date dateInscription;
     private int nbDons;
+    private boolean active;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Annonce> annonces;

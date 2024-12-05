@@ -4,7 +4,6 @@ import com.example.H2HBackend.enums.etatObjet;
 import com.example.H2HBackend.enums.typeAnnonce;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 
