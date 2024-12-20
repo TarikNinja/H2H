@@ -3,6 +3,7 @@ package com.example.H2HBackend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,9 +16,11 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategorie;
+
     @Column(unique = true)
     private String nomCategorie;
 
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
-    private List<Annonce> annonces;
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Objet> objets = new ArrayList<>();
 }
+

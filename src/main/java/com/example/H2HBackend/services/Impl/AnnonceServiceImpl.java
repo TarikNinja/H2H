@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class AnnonceServiceImpl implements AnnonceService {
     @Autowired
@@ -18,27 +19,25 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     @Override
-    public Annonce updateAnnonce(int idAnnonce, Annonce updatedAnnonce) {
+    public Annonce updateAnnonce(Long idAnnonce, Annonce updatedAnnonce) {
         Annonce existingAnnonce = annonceRepository.findById(idAnnonce)
-                .orElseThrow(() -> new IllegalArgumentException("Annonce not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Annonce not found with ID: " + idAnnonce));
 
         existingAnnonce.setTitreAnnonce(updatedAnnonce.getTitreAnnonce());
         existingAnnonce.setDescription(updatedAnnonce.getDescription());
         existingAnnonce.setDatePub(updatedAnnonce.getDatePub());
         existingAnnonce.setType(updatedAnnonce.getType());
-        existingAnnonce.setEtat(updatedAnnonce.getEtat());
-        existingAnnonce.setCategorie(updatedAnnonce.getCategorie());
         existingAnnonce.setUser(updatedAnnonce.getUser());
         existingAnnonce.setEmplacement(updatedAnnonce.getEmplacement());
-        existingAnnonce.setImages(updatedAnnonce.getImages());
+        existingAnnonce.setObjet(updatedAnnonce.getObjet());
 
         return annonceRepository.save(existingAnnonce);
     }
 
     @Override
-    public void deleteAnnonce(int idAnnonce) {
+    public void deleteAnnonce(Long idAnnonce) {
         if (!annonceRepository.existsById(idAnnonce)) {
-            throw new IllegalArgumentException("Annonce not found");
+            throw new IllegalArgumentException("Annonce not found with ID: " + idAnnonce);
         }
         annonceRepository.deleteById(idAnnonce);
     }
@@ -49,9 +48,9 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     @Override
-    public Annonce getAnnonceById(int idAnnonce) {
+    public Annonce getAnnonceById(Long idAnnonce) {
         return annonceRepository.findById(idAnnonce)
-                .orElseThrow(() -> new IllegalArgumentException("Annonce not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Annonce not found with ID: " + idAnnonce));
     }
 
     @Override
@@ -60,28 +59,7 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     @Override
-    public List<Annonce> getAnnoncesByCategorie(Long idCategorie) {
-        return annonceRepository.findByCategorieId(idCategorie);
-    }
-
-    @Override
     public List<Annonce> searchAnnonces(String keyword) {
         return annonceRepository.findByTitreAnnonceContainingIgnoreCaseOrDescriptionContainingIgnoreCase(keyword, keyword);
-    }
-
-    @Override
-    public void reserveAnnonce(int idAnnonce) {
-        Annonce annonce = annonceRepository.findById(idAnnonce)
-                .orElseThrow(() -> new IllegalArgumentException("Annonce not found"));
-        annonce.setEstReserve(true);
-        annonceRepository.save(annonce);
-    }
-
-    @Override
-    public void unreserveAnnonce(int idAnnonce) {
-        Annonce annonce = annonceRepository.findById(idAnnonce)
-                .orElseThrow(() -> new IllegalArgumentException("Annonce not found"));
-        annonce.setEstReserve(false);
-        annonceRepository.save(annonce);
     }
 }

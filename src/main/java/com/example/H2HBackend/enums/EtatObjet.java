@@ -3,7 +3,7 @@ package com.example.H2HBackend.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum etatObjet {
+public enum EtatObjet {
     COMMENEUF("Comme neuf"),
     BONETAT("Bon etat"),
     ETATMOYEN("Etat moyen"),
@@ -12,7 +12,7 @@ public enum etatObjet {
 
     String value;
 
-    etatObjet(String value) {
+    EtatObjet(String value) {
         this.value =value;
     }
 
@@ -22,8 +22,8 @@ public enum etatObjet {
     }
 
     @JsonCreator
-    public static etatObjet fromValue(String value) {
-        for (etatObjet myEnum : etatObjet.values()) {
+    public static EtatObjet fromValue(String value) {
+        for (EtatObjet myEnum : EtatObjet.values()) {
             if (myEnum.value.equals(value)) {
                 return myEnum;
             }
