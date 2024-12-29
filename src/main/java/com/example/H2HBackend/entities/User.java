@@ -27,8 +27,12 @@ public class User {
     private Role role;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Attachment avatar;
+
     private Date dateInscription;
+
     private int nbDons;
+    private int nbReclamations;
+
     private boolean active;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

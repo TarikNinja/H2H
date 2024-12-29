@@ -1,14 +1,13 @@
 package com.example.H2HBackend.services.Impl;
 
-import com.example.H2HBackend.entities.Annonce;
-import com.example.H2HBackend.entities.Notification;
-import com.example.H2HBackend.entities.Reclamation;
-import com.example.H2HBackend.entities.User;
+import com.example.H2HBackend.entities.*;
 import com.example.H2HBackend.repositories.NotificationRepository;
 import com.example.H2HBackend.repositories.UserRepository;
+import com.example.H2HBackend.services.AttachmentService;
 import com.example.H2HBackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.management.relation.Role;
 import java.util.List;
@@ -17,7 +16,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private AttachmentService attachmentService;
 
     @Override
     public User registerUser(User user) {
@@ -25,6 +27,24 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email already exists");
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public User registerUserWithAttachment(User user, MultipartFile file) {
+        Attachment avatar=attachmentService.createAttachment(file);
+        user.setAvatar(avatar);
+         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long idUser) {
+        return userRepository.findById(idUser)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -128,5 +148,20 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(idUser)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return user.getReclamations();
+    }
+
+    @Override
+    public User updateUserProfileWithAttachment(Long idUser, User updatedUser, MultipartFile file) {
+        User user = userRepository.findById(idUser)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.setNom(updatedUser.getNom());
+        user.setPrenom(updatedUser.getPrenom());
+        user.setEmail(updatedUser.getEmail());
+        user.setNumTel(updatedUser.getNumTel());
+        user.setUsername(updatedUser.getUsername());
+        Attachment avatar=attachmentService.createAttachment(file);
+        user.setAvatar(avatar);
+        return userRepository.save(user);
     }
 }
